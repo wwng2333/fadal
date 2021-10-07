@@ -876,13 +876,15 @@ FORMATTING
 
   BLOCK_TEMPLATE rapid_traverse
   {
-       G_motion[$mom_sys_rapid_code]
        G_mode[$mom_sys_output_code($mom_output_mode)]\opt
+       Text[G54]
+       G_motion[$mom_sys_rapid_code]
        X[$mom_pos(0)]
        Y[$mom_pos(1)]
-       Z[$mom_pos(2)]
+       fourth_axis[$mom_out_angle_pos(0)]
        S[$mom_spindle_speed]
        M_spindle[$mom_sys_spindle_direction_code($mom_spindle_direction)]\opt
+       F[$feed]\opt
   }
 
   BLOCK_TEMPLATE rapid_traverse_xy
