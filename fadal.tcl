@@ -926,7 +926,7 @@ proc MOM_cutcom_on { } {
 #=============================================================
    CUTCOM_SET
 
-   global mom_cutcom_adjust_register
+   global mom_tool_number,mom_cutcom_adjust_register
 
    if { [info exists mom_cutcom_adjust_register] } {
       set cutcom_register_min 1
