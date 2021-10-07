@@ -1621,7 +1621,7 @@ proc PB_start_of_program { } {
    MOM_force Once G_cutcom G_plane G_adjust G_motion G_mode
    MOM_do_template absolute_mode
 
-   MOM_do_template start_of_program_1
+   #MOM_do_template start_of_program_1
 
    if [CMD_EXIST PB_CMD_kin_start_of_program_2] {
       PB_CMD_kin_start_of_program_2
