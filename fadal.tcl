@@ -926,18 +926,13 @@ proc MOM_cutcom_on { } {
 #=============================================================
    CUTCOM_SET
 
-   global mom_tool_number,mom_cutcom_adjust_register
-
+   global mom_tool_number mom_cutcom_adjust_register
+   set cutcom_register_min 1
+   set cutcom_register_max 99
    if { [info exists mom_cutcom_adjust_register] } {
-      set cutcom_register_min 1
-      set cutcom_register_max 99
-
       if { $mom_cutcom_adjust_register < $cutcom_register_min ||\
            $mom_cutcom_adjust_register > $cutcom_register_max } {
-
          CATCH_WARNING "CUTCOM register $mom_cutcom_adjust_register must be within the range between 1 and 99"
-
-         unset mom_cutcom_adjust_register
       }
    }
    set mom_cutcom_adjust_register $mom_tool_number
