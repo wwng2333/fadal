@@ -1119,6 +1119,7 @@ proc MOM_end_of_path { } {
       MOM_output_literal "M5"
       MOM_output_literal "M9"
       MOM_output_literal "G53 G90 G0 Y0."
+      MOM_output_literal "M30"
    }
    
    global mom_sys_in_operation
@@ -1622,7 +1623,7 @@ proc PB_start_of_program { } {
 
    MOM_do_template start_of_program_2
    MOM_set_seq_on
-
+   PB_CMD_fix_RAPID_SET
    #MOM_force Once G_cutcom G_plane G_adjust G_motion G_mode
    #MOM_do_template absolute_mode
 
