@@ -917,7 +917,7 @@ proc MOM_cutcom_off { } {
 #=============================================================
    CUTCOM_SET
 
-   MOM_do_template cutcom_off
+   #MOM_do_template cutcom_off
 }
 
 
@@ -940,6 +940,8 @@ proc MOM_cutcom_on { } {
          unset mom_cutcom_adjust_register
       }
    }
+   set mom_cutcom_adjust_register $mom_tool_number
+   MOM_force once D
 }
 
 
