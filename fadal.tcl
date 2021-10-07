@@ -1135,7 +1135,7 @@ proc MOM_first_move { } {
   global mom_kin_max_fpm mom_motion_event
 
    COOLANT_SET ; CUTCOM_SET ; SPINDLE_SET ; RAPID_SET
-
+   PB_CMD_initial_position
    catch { MOM_$mom_motion_event }
 
   # Configure turbo output settings
@@ -1187,6 +1187,7 @@ proc MOM_initial_move { } {
 
    COOLANT_SET ; CUTCOM_SET ; SPINDLE_SET ; RAPID_SET
 
+   PB_CMD_initial_position
 
   global mom_programmed_feed_rate
    if { [EQ_is_equal $mom_programmed_feed_rate 0] } {
@@ -1627,6 +1628,31 @@ proc PB_start_of_program { } {
    }
 }
 
+#=============================================================
+proc PB_CMD_initial_position { } {
+#=============================================================
+global from_point
+if {[info exists from_point] && $from_point == 1} {
+set from_point 0
+return
+ }
+
+global mom_feed_rapid_output mom_sys_rapid_code fff mom_feed_rapid_value
+if { $mom_feed_rapid_output == 1 } {
+set mom_sys_rapid_code 1
+set fff $mom_feed_rapid_value
+MOM_force Once F
+} else {
+set fff ""
+set mom_sys_rapid_code 0
+MOM_suppress once F
+}
+
+MOM_do_template initial_move_XY
+MOM_do_template initial_move_Z
+#MOM_do_template initial_M8 
+
+}
 
 #=============================================================
 proc PB_CMD_FEEDRATE_NUMBER { } {
@@ -2597,6 +2623,22 @@ proc PB_CMD_fourth_axis_rotate_move { } {
   MOM_do_template fourth_axis_rotate_move
 }
 
+#=============================================================
+proc PB_CMD_from_position { } {
+#=============================================================
+
+global first_point
+if {[info exists first_point] && $first_point == 1} {
+set first_point 0
+return
+ }
+MOM_do_template initial_move_XY
+MOM_do_template initial_move_Z
+#MOM_do_template initial_M8
+
+global from_point
+set from_point 1
+}
 
 #=============================================================
 proc PB_CMD_handle_sync_event { } {
