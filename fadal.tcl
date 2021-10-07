@@ -1396,8 +1396,8 @@ proc MOM_rapid_move { } {
       PB_FORCE Once $mod_traverse
       MOM_do_template rapid_traverse
    }
+   MOM_force once G_feed F
 }
-
 
 #=============================================================
 proc MOM_sequence_number { } {
@@ -1405,20 +1405,17 @@ proc MOM_sequence_number { } {
    SEQNO_SET
 }
 
-
 #=============================================================
 proc MOM_set_modes { } {
 #=============================================================
    MODES_SET
 }
 
-
 #=============================================================
 proc MOM_spindle_off { } {
 #=============================================================
    MOM_do_template spindle_off
 }
-
 
 #=============================================================
 proc MOM_spindle_rpm { } {
@@ -1428,7 +1425,6 @@ proc MOM_spindle_rpm { } {
    MOM_force Once S M_spindle
    MOM_do_template spindle_rpm
 }
-
 
 #=============================================================
 proc MOM_start_of_path { } {
@@ -1455,13 +1451,13 @@ proc MOM_start_of_path { } {
       MOM_do_template absolute_mode
    }
 
-   PB_CMD_start_of_operation_force_addresses
-
    global mom_operation_name
    MOM_output_literal "($mom_operation_name)"
 
    global mom_tool_name
    MOM_output_literal "($mom_tool_name)"
+   
+   PB_CMD_start_of_operation_force_addresses
 }
 
 
@@ -4281,7 +4277,7 @@ proc PB_CMD_start_of_alignment_character { } {
 #=============================================================
 proc PB_CMD_start_of_operation_force_addresses { } {
 #=============================================================
-  MOM_force once M_spindle S X Y Z F R fourth_axis fifth_axis
+  MOM_force once S M_spindle X Y Z fourth_axis F H G_adjust
 }
 
 
@@ -4326,7 +4322,7 @@ return
 #=============================================================
 proc PB_CMD_tool_change_force_addresses { } {
 #=============================================================
-  MOM_force once G_adjust H S
+  MOM_force once G_adjust H X Y Z S fourth_axis fifth_axis
 }
 
 

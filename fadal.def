@@ -13,7 +13,7 @@ FORMATTING
 ################ FORMAT DECLARATIONS #################
   FORMAT AbsCoord "&__5.3_"
   FORMAT Coordinate "&__5.3_"
-  FORMAT Digit_2 "&_02_00"
+  FORMAT Digit_2 "&__2_00"
   FORMAT Digit_4 "&__6_00"
   FORMAT Digit_5 "&__5_00"
   FORMAT Dwell_SECONDS "&__5.3_"
@@ -477,6 +477,7 @@ FORMATTING
        G_plane[$mom_sys_cutcom_plane_code(XY)]
        G_mode[$mom_sys_output_code($mom_output_mode)]
        G_motion[$mom_sys_cycle_off]
+       Text[G0]
        G_adjust[$mom_sys_adjust_cancel_code]
        G_feed[$mom_sys_feed_rate_mode_code($feed_mode)]
   }
@@ -782,16 +783,14 @@ FORMATTING
   BLOCK_TEMPLATE linear_move
   {
        G_cutcom[$mom_sys_cutcom_code($mom_cutcom_status)]\opt
-       G_plane[$mom_sys_cutcom_plane_code($mom_cutcom_plane)]\opt
        G_motion[$mom_sys_linear_code]
        G_mode[$mom_sys_output_code($mom_output_mode)]
        X[$mom_pos(0)]
        Y[$mom_pos(1)]
        Z[$mom_pos(2)]
-       F[$feed]
-       S[$mom_spindle_speed]
        D[$mom_cutcom_adjust_register]\opt
-       M_spindle[$mom_sys_spindle_direction_code($mom_spindle_direction)]\opt
+       F[$feed]
+       M_coolant[$mom_sys_coolant_code(ON)]\opt
   }
 
   BLOCK_TEMPLATE linear_move_turbo
