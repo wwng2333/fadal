@@ -445,13 +445,13 @@ proc MOM_end_of_program { } {
 #=============================================================
   global mom_program_aborted mom_event_error
 
-   MOM_do_template end_of_program_1
+   #MOM_do_template end_of_program_1
 
-   MOM_do_template end_of_program_3
+   #MOM_do_template end_of_program_3
 
-   MOM_do_template end_of_program_4
+   #MOM_do_template end_of_program_4
 
-   MOM_do_template end_of_program
+   #MOM_do_template end_of_program
    MOM_set_seq_off
 
    MOM_do_template rewind_stop_code
@@ -1117,6 +1117,13 @@ proc MOM_end_of_path { } {
       PB_CMD_kin_end_of_path
    }
 
+   if { [PB_CMD__check_block_spindle_off] } {
+      MOM_output_literal "G53 G90 G0 Z0."
+      MOM_output_literal "M5"
+      MOM_output_literal "M9"
+      MOM_output_literal "G53 G90 G0 Y0."
+   }
+   
    global mom_sys_in_operation
    set mom_sys_in_operation 0
 }
@@ -1446,6 +1453,11 @@ proc MOM_start_of_path { } {
       PB_CMD_kin_start_of_path
    }
 
+   if { [PB_CMD__check_block_absolute_mode] } {
+      MOM_force Once G_cutcom G_plane G_mode
+      MOM_do_template absolute_mode
+   }
+
    PB_CMD_start_of_operation_force_addresses
 
    global mom_operation_name
@@ -1618,8 +1630,8 @@ proc PB_start_of_program { } {
    MOM_do_template start_of_program_2
    MOM_set_seq_on
 
-   MOM_force Once G_cutcom G_plane G_adjust G_motion G_mode
-   MOM_do_template absolute_mode
+   #MOM_force Once G_cutcom G_plane G_adjust G_motion G_mode
+   #MOM_do_template absolute_mode
 
    #MOM_do_template start_of_program_1
 
@@ -3691,6 +3703,59 @@ proc PB_CMD_linear_move { } {
 #
 
   MOM_do_template linear_move
+}
+
+#=============================================================
+proc PB_CMD__check_block_absolute_mode { } {
+#=============================================================
+# This custom command should return
+#   1 : Output BLOCK
+#   0 : No output
+
+   global xxx
+
+if { ![info exists xxx] } {
+set xxx 1
+ return 1
+} else {
+ return 0
+}
+}
+
+#=============================================================
+proc PB_CMD__check_block_spindle_off { } {
+#=============================================================
+# This custom command should return
+#   1 : Output BLOCK
+#   0 : No output
+
+global mom_current_oper_is_last_oper_in_program
+
+#MOM_output_literal "$mom_current_oper_is_last_oper_in_program"
+
+if { ![string compare $mom_current_oper_is_last_oper_in_program "YES"] } {
+    return 1
+} else {
+    return 0
+}
+
+}
+
+#=============================================================
+proc PB_CMD__check_block_start_of_program { } {
+#=============================================================
+# This custom command should return
+#   1 : Output BLOCK
+#   0 : No output
+
+   global xxy
+
+if { ![info exists xxy] } {
+
+ return 1
+} else {
+ return 0
+}
 }
 
 
