@@ -475,9 +475,34 @@ FORMATTING
   {
        G_cutcom[$mom_sys_cutcom_code(OFF)]
        G_plane[$mom_sys_cutcom_plane_code(XY)]
-       G_adjust[$mom_sys_adjust_cancel_code]
+       G_mode[$mom_sys_output_code($mom_output_mode)]
        G_motion[$mom_sys_cycle_off]
-       G_mode[$mom_sys_output_code(ABSOLUTE)]
+       G_adjust[$mom_sys_adjust_cancel_code]
+       G_feed[$mom_sys_feed_rate_mode_code($feed_mode)]
+  }
+
+  BLOCK_TEMPLATE initial_move_Z
+  {
+       G_mode[$mom_sys_output_code($mom_output_mode)]\opt
+       G_adjust[$mom_sys_adjust_code]
+       G_motion[$mom_sys_rapid_code]
+       X[$mom_pos(0)]
+       Y[$mom_pos(1)]
+       Z[$mom_pos(2)]
+       fourth_axis[$mom_out_angle_pos(0)]
+       H[$mom_tool_adjust_register]
+  }
+
+  BLOCK_TEMPLATE initial_move_XY
+  {
+       G_mode[$mom_sys_output_code($mom_output_mode)]\opt
+       Text[G54]
+       G_motion[$mom_sys_rapid_code]
+       X[$mom_pos(0)]
+       Y[$mom_pos(1)]
+       S[$mom_spindle_speed]
+       M_spindle[$mom_sys_spindle_direction_code($mom_spindle_direction)]\opt
+       F[$feed]\opt
   }
 
   BLOCK_TEMPLATE anchor_point
